@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ひらがな単語ゲーム</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    label {
+      margin: 10px;
+      font-size: 18px;
+    }
+    #word {
+      font-size: 48px;
+      margin: 40px 0;
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ひらがな単語ゲーム</h1>
+
+  <div class="checkbox-group">
+    <label><input type="checkbox" value="a" onchange="updateWord()"> あ・か行</label>
+    <label><input type="checkbox" value="sa" onchange="updateWord()"> さ・た行</label>
+    <label><input type="checkbox" value="na" onchange="updateWord()"> な・は行</label>
+    <label><input type="checkbox" value="ma" onchange="updateWord()"> ま・や・ら・わ行</label>
+  </div>
+
+  <div id="word">チェックを入れてください</div>
+
+  <button onclick="updateWord()">次のひらがなを表示する</button>
+
+  <script>
+    const words = [
+      "あか", "あお", "うえ", "あい", "いえ", "えき", "くうこう", "き", "かお", "いけ",
+      "きかい", "かき", "いか", "かい", "あき", "さとう", "しお", "つくえ", "いす", "あし",
+      "て", "くち", "せかい", "ざっし", "きって", "とけい", "かさ", "すし", "うさぎ", "ぞう",
+      "した", "さかな", "にく", "いぬ", "ねこ", "ひこうき", "ふね", "ふうとう", "はがき", "はな",
+      "どうぶつ", "ほし", "ひ", "ほね", "のど", "なべ", "おかね", "やま", "うみ", "くも",
+      "ゆき", "め", "みみ", "ともだち", "きょうだい", "やさい", "くだもの", "たまご",
+      "ぎゅうにゅう", "じしょ", "きょうしつ", "むし", "めがね", "くるま", "じてんしゃ",
+      "でんしゃ", "かわ", "ひる", "よる", "ひらがな", "かんじ", "でんわ", "れいぞうこ",
+      "おふろ", "くすり", "ぎんこう", "からだ", "みかん", "りんごをたべます"
+    ];
+
+    const groups = {
+      a: ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ"],
+      sa: ["さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と"],
+      na: ["な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ"],
+      ma: ["ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"]
+    };
+
+    function updateWord() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
+
+      if (selectedGroups.length === 0) {
+        document.getElementById("word").textContent = "チェックを入れてください";
+        return;
+      }
+
+      let filtered = [];
+
+      selectedGroups.forEach(group => {
+        const heads = groups[group];
+        const match = words.filter(word => heads.includes(word[0]));
+        filtered.push(...match);
+      });
+
+      const unique = [...new Set(filtered)];
+
+      if (unique.length === 0) {
+        document.getElementById("word").textContent = "該当することばがありません";
+        return;
+      }
+
+      const randomWord = unique[Math.floor(Math.random() * unique.length)];
+      document.getElementById("word").textContent = randomWord;
+    }
+  </script>
+
+</body>
+</html>
