@@ -67,6 +67,7 @@
     };
 
     let shownWords = [];
+    let shownCount = 0;
 
     function updateWord() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -95,14 +96,20 @@
       }
 
       const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-      shownWords.push(randomWord);
-      document.getElementById("word").textContent = randomWord;
-      document.getElementById("retry").style.display = "none";
+shownWords.push(randomWord);
+shownCount++; // ← カウントを1つ増やす
+
+document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
+document.getElementById("retry").style.display = "none";
+
     }
 
-    function retry() {
-      shownWords = [];
-      updateWord();
+   function retry() {
+  shownWords = [];
+  shownCount = 0;
+  updateWord();
+}
+
     }
   </script>
 
