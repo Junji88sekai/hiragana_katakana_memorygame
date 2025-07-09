@@ -26,6 +26,7 @@
     button {
       font-size: 20px;
       padding: 10px 20px;
+      margin: 5px;
     }
   </style>
 </head>
@@ -43,6 +44,7 @@
   <div id="word">チェックを入れてください</div>
 
   <button onclick="updateWord()">次のひらがなを表示する</button>
+  <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
 
   <script>
     const words = [
@@ -64,32 +66,44 @@
       ma: ["ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"]
     };
 
-   function updateWord() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
+    let shownWords = [];
 
-  if (selectedGroups.length === 0) {
-    document.getElementById("word").textContent = "チェックを入れてください";
-    return;
-  }
+    function updateWord() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-  // 選択された行に含まれる文字をまとめる（例：["あ", "い", "う", ...]）
-  const allowedChars = selectedGroups.flatMap(group => groups[group]);
+      if (selectedGroups.length === 0) {
+        document.getElementById("word").textContent = "チェックを入れてください";
+        document.getElementById("retry").style.display = "none";
+        return;
+      }
 
-  // 単語のすべての文字が allowedChars に含まれているものだけ残す
-  const filtered = words.filter(word =>
-    [...word].every(char => allowedChars.includes(char))
-  );
+      const allowedChars = selectedGroups.flatMap(group => groups[group]);
 
-  if (filtered.length === 0) {
-    document.getElementById("word").textContent = "該当することばがありません";
-    return;
-  }
+      // 行の文字だけで構成された単語をフィルター
+      let filtered = words.filter(word =>
+        [...word].every(char => allowedChars.includes(char))
+      );
 
-  const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-  document.getElementById("word").textContent = randomWord;
-}
+      // すでに表示された単語を除外
+      filtered = filtered.filter(word => !shownWords.includes(word));
 
+      if (filtered.length === 0) {
+        document.getElementById("word").textContent = "すべてのことばを表示しました！";
+        document.getElementById("retry").style.display = "inline-block";
+        return;
+      }
+
+      const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
+      shownWords.push(randomWord);
+      document.getElementById("word").textContent = randomWord;
+      document.getElementById("retry").style.display = "none";
+    }
+
+    function retry() {
+      shownWords = [];
+      updateWord();
+    }
   </script>
 
 </body>
