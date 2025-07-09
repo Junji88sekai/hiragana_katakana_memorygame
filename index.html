@@ -64,33 +64,32 @@
       ma: ["ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"]
     };
 
-    function updateWord() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
+   function updateWord() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-      if (selectedGroups.length === 0) {
-        document.getElementById("word").textContent = "チェックを入れてください";
-        return;
-      }
+  if (selectedGroups.length === 0) {
+    document.getElementById("word").textContent = "チェックを入れてください";
+    return;
+  }
 
-      let filtered = [];
+  // 選択された行に含まれる文字をまとめる（例：["あ", "い", "う", ...]）
+  const allowedChars = selectedGroups.flatMap(group => groups[group]);
 
-      selectedGroups.forEach(group => {
-        const heads = groups[group];
-        const match = words.filter(word => heads.includes(word[0]));
-        filtered.push(...match);
-      });
+  // 単語のすべての文字が allowedChars に含まれているものだけ残す
+  const filtered = words.filter(word =>
+    [...word].every(char => allowedChars.includes(char))
+  );
 
-      const unique = [...new Set(filtered)];
+  if (filtered.length === 0) {
+    document.getElementById("word").textContent = "該当することばがありません";
+    return;
+  }
 
-      if (unique.length === 0) {
-        document.getElementById("word").textContent = "該当することばがありません";
-        return;
-      }
+  const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
+  document.getElementById("word").textContent = randomWord;
+}
 
-      const randomWord = unique[Math.floor(Math.random() * unique.length)];
-      document.getElementById("word").textContent = randomWord;
-    }
   </script>
 
 </body>
