@@ -106,7 +106,7 @@
       document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
 
       const image = document.getElementById("image");
-      image.src = `images/${randomWord}.jpg`;
+      image.src = `images/${randomWord}.png`;
       image.style.display = "block";
       image.onerror = () => {
         image.style.display = "none";
