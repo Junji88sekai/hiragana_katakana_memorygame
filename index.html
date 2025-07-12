@@ -23,6 +23,11 @@
       font-size: 48px;
       margin: 40px 0;
     }
+    #image {
+      max-width: 300px;
+      display: none;
+      margin-top: 20px;
+    }
     button {
       font-size: 20px;
       padding: 10px 20px;
@@ -42,7 +47,7 @@
   </div>
 
   <div id="word">チェックを入れてください</div>
-<img id="image" src="" alt="" style="max-width: 300px; display: none; margin-top: 20px;">
+  <img id="image" src="" alt="ことばの画像">
 
   <button onclick="updateWord()">次のひらがなを表示する</button>
   <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
@@ -73,49 +78,48 @@
     function updateWord() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
       const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
-const image = document.getElementById("image");
-image.src = `images/${randomWord}.jpg`;
-image.style.display = "block";
-image.onerror = () => {
-  image.style.display = "none";
-};
 
       if (selectedGroups.length === 0) {
         document.getElementById("word").textContent = "チェックを入れてください";
+        document.getElementById("image").style.display = "none";
         document.getElementById("retry").style.display = "none";
         return;
       }
 
       const allowedChars = selectedGroups.flatMap(group => groups[group]);
-
-      // 行の文字だけで構成された単語をフィルター
       let filtered = words.filter(word =>
         [...word].every(char => allowedChars.includes(char))
       );
-
-      // すでに表示された単語を除外
       filtered = filtered.filter(word => !shownWords.includes(word));
 
       if (filtered.length === 0) {
         document.getElementById("word").textContent = "すべてのことばを表示しました！";
+        document.getElementById("image").style.display = "none";
         document.getElementById("retry").style.display = "inline-block";
         return;
       }
 
       const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-shownWords.push(randomWord);
-shownCount++; // ← カウントを1つ増やす
+      shownWords.push(randomWord);
+      shownCount++;
 
-document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
-document.getElementById("retry").style.display = "none";
+      document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
 
+      const image = document.getElementById("image");
+      image.src = `images/${randomWord}.jpg`;
+      image.style.display = "block";
+      image.onerror = () => {
+        image.style.display = "none";
+      };
+
+      document.getElementById("retry").style.display = "none";
     }
 
-   function retry() {
-  shownWords = [];
-  shownCount = 0;
-  updateWord();
-}
+    function retry() {
+      shownWords = [];
+      shownCount = 0;
+      updateWord();
+    }
   </script>
 
 </body>
