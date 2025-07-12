@@ -15,6 +15,13 @@
       justify-content: center;
       margin-bottom: 20px;
     }
+.display-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+    
     label {
       margin: 10px;
       font-size: 18px;
@@ -45,10 +52,10 @@
     <label><input type="checkbox" value="na" onchange="updateWord()"> な・は行</label>
     <label><input type="checkbox" value="ma" onchange="updateWord()"> ま・や・ら・わ行</label>
   </div>
-
+<div class="display-area">
   <div id="word">チェックを入れてください</div>
   <img id="image" src="" alt="ことばの画像">
-
+</div>
   <button onclick="updateWord()">次のひらがなを表示する</button>
   <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
 
