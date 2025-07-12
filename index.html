@@ -48,6 +48,19 @@
 
   <div id="word">チェックを入れてください</div>
   <img id="image" src="" alt="ことばの画像">
+const image = document.getElementById("image");
+
+// まず .png を試す
+image.src = `images/${randomWord}.png`;
+image.style.display = "block";
+
+// .png が見つからなければ .jpg を試す
+image.onerror = () => {
+  image.src = `images/${randomWord}.jpg`;
+  image.onerror = () => {
+    image.style.display = "none"; // 両方なければ非表示
+  };
+};
 
   <button onclick="updateWord()">次のひらがなを表示する</button>
   <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
@@ -105,12 +118,7 @@
 
       document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
 
-      const image = document.getElementById("image");
-      image.src = `images/${randomWord}.png`;
-      image.style.display = "block";
-      image.onerror = () => {
-        image.style.display = "none";
-      };
+     };
 
       document.getElementById("retry").style.display = "none";
     }
