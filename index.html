@@ -2,7 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <div class="title-area">
   <title>ひらがな単語ゲーム</title>
+  </div>
   <style>
     body {
   font-family: sans-serif;
@@ -25,7 +27,22 @@
   align-items: center;
   justify-content: center;
 }
-    
+    .title-area {
+    background-image: url("images/title-background.jpg"); /* 背景画像（なければ削除） */
+    background-color: #fce4ec; /* 背景色（ピンク系） */
+    background-size: cover;
+    background-position: center;
+    padding: 40px 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .title-area h1 {
+    font-size: 48px;
+    margin: 0;
+    color: #333;
+  }  
     label {
       margin: 10px;
       font-size: 18px;
