@@ -2,86 +2,111 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-
   <title>ひらがな単語ゲーム</title>
- 
   <style>
     body {
-  font-family: sans-serif;
-  text-align: center;
-  padding: 30px;
-  background-image: url("images/background.png"); /* または background.png */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+      background-image: url("images/background.png"); /* 背景画像 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .title-area {
+      background-image: url("images/title-background.jpg"); /* タイトル背景画像 */
+      background-color: #fce4ec; /* 背景色の補助 */
+      background-size: cover;
+      background-position: center;
+      padding: 40px 0;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .title-area img {
+      max-width: 600px;
+      width: 90%;
+      height: auto;
+    }
+
     .checkbox-group {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 20px;
     }
-.display-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-    .title-area {
-    background-image: url("images/title-background.jpg"); /* 背景画像（なければ削除） */
-    background-color: #fce4ec; /* 背景色（ピンク系） */
-    background-size: cover;
-    background-position: center;
-    padding: 40px 0;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-  }
 
-  .title-area h1 {
-    font-size: 48px;
-    margin: 0;
-    color: #333;
-  }  
     label {
       margin: 10px;
       font-size: 18px;
     }
+
+    .display-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
     #word {
       font-size: 48px;
       margin: 40px 0 10px;
+      color: #222;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 10px 20px;
+      border-radius: 10px;
     }
+
     #image {
       max-width: 300px;
       display: none;
       margin-top: 10px;
     }
+
     button {
       font-size: 20px;
       padding: 10px 20px;
       margin: 5px;
+      border-radius: 8px;
+      border: none;
+      background-color: #f48fb1;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ec407a;
     }
   </style>
 </head>
 <body>
 
+  <!-- タイトル画像 -->
   <div class="title-area">
-<img src="images/title.png" alt="タイトル画像" style="max-width: 600px; margin-bottom: 10px;">
+    <img src="images/title.png" alt="タイトル画像">
   </div>
+
+  <!-- チェックボックス -->
   <div class="checkbox-group">
     <label><input type="checkbox" value="a" onchange="updateWord()"> あ・か行</label>
     <label><input type="checkbox" value="sa" onchange="updateWord()"> さ・た行</label>
     <label><input type="checkbox" value="na" onchange="updateWord()"> な・は行</label>
-    <label><input type="checkbox" value="ma" onchange="updateWord()"> ま・や行</label>
-    <label><input type="checkbox" value="ma" onchange="updateWord()"> ら・わ行</label>
+    <label><input type="checkbox" value="ma" onchange="updateWord()"> ま・や・ら・わ行</label>
   </div>
-<div class="display-area">
-  <div id="word">チェックを入れてください</div>
-  <img id="image" src="" alt="ことばの画像">
-</div>
+
+  <!-- 表示領域 -->
+  <div class="display-area">
+    <div id="word">チェックを入れてください</div>
+    <img id="image" src="" alt="ことばの画像">
+  </div>
+
+  <!-- ボタン -->
   <button onclick="updateWord()">次のひらがなを表示する</button>
   <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
 
+  <!-- スクリプト -->
   <script>
     const words = [
       "あか", "あお", "うえ", "あい", "いえ", "えき", "くうこう", "き", "かお", "いけ",
