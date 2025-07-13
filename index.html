@@ -5,10 +5,14 @@
   <title>ひらがな単語ゲーム</title>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 30px;
-    }
+  font-family: sans-serif;
+  text-align: center;
+  padding: 30px;
+  background-image: url("images/background.jpg"); /* または background.png */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
     .checkbox-group {
       display: flex;
       flex-wrap: wrap;
@@ -44,7 +48,8 @@
 </head>
 <body>
 
-  <h1>ひらがな単語ゲーム</h1>
+  <!-- これで画像タイトルに置き換えられます -->
+<img src="images/title.png" alt="タイトル画像" style="max-width: 300px; margin-bottom: 10px;">
 
   <div class="checkbox-group">
     <label><input type="checkbox" value="a" onchange="updateWord()"> あ・か行</label>
