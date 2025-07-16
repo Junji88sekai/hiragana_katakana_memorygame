@@ -154,9 +154,10 @@
         return;
       }
 
-      const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-      shownWords.push(randomWord);
-      shownCount++;
+      const maruNumbers = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩",
+                     "⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳"];
+const prefix = shownCount <= maruNumbers.length ? maruNumbers[shownCount - 1] : `(${shownCount})`;
+document.getElementById("word").textContent = `${prefix} ${randomWord}`;
 
       document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
 
