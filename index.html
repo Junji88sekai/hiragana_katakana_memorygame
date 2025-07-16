@@ -159,8 +159,6 @@
 const prefix = shownCount <= maruNumbers.length ? maruNumbers[shownCount - 1] : `(${shownCount})`;
 document.getElementById("word").textContent = `${prefix} ${randomWord}`;
 
-      document.getElementById("word").textContent = `${shownCount}. ${randomWord}`;
-
       const image = document.getElementById("image");
       image.src = `images/${randomWord}.png`;
       image.style.display = "block";
