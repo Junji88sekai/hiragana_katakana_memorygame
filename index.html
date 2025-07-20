@@ -149,7 +149,7 @@
 
       document.getElementById("cardArea").innerHTML = `
         <img id="cardImage" src="${cardImage}" alt="カード">
-        <img id="cardImage" src="images/kurumaA.png" alt="カード" onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
+        onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
       `;
 
       document.getElementById("retry").style.display = "none";
