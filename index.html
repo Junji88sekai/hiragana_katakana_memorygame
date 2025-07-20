@@ -91,18 +91,22 @@
   </div>
 
   <!-- カード表示エリア -->
-  <div class="card-pair" id="cardArea">
-    <!-- 画像がここに入る -->
-  </div>
+  <div class="card-pair" id="cardArea"></div>
 
-  <!-- ボタン -->
-  <button onclick="updateCard()">次のカードを表示する</button>
-  <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
+  <!-- 操作ボタン -->
+  <div>
+    <button onclick="updateCard()">次のカードを表示する</button>
+    <button onclick="hideCard('A')">カードAを隠す</button>
+    <button onclick="hideCard('B')">カードBを隠す</button>
+    <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
+  </div>
 
   <script>
     const words = [
-     "ai", "ike", "aka", "ao", "eki", "ie", "e", "kao","kuukou", "kikai", "ki", "kai", "aki", "kaki", "ue", "satou", "shio", "tsukue", "isu", "ashi",
-      , "kuchi", "te", "sekai", "kasa", "zasshi", "kitte", "tokei", "shita", "sushi", "zou", "usagi"
+      "ai", "ike", "aka", "ao", "eki", "ie", "e", "kao", "kuukou", "kikai",
+      "ki", "kai", "aki", "kaki", "ue", "satou", "shio", "tsukue", "isu",
+      "ashi", "kuchi", "te", "sekai", "kasa", "zasshi", "kitte", "tokei",
+      "shita", "sushi", "zou", "usagi"
     ];
 
     const groups = {
@@ -115,6 +119,8 @@
 
     let shownWords = [];
     let currentWord = "";
+    let hideA = false;
+    let hideB = false;
 
     function updateCard() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -144,22 +150,40 @@
       shownWords.push(randomWord);
       currentWord = randomWord;
 
-      const imageA = `images/${currentWord}A.png`;
-      const imageB = `images/${currentWord}B.png`;
+      const imageA = hideA
+        ? `images/omoteA.png`
+        : `images/${currentWord}A.png`;
+
+      const imageB = hideB
+        ? `images/omoteB.png`
+        : `images/${currentWord}B.png`;
 
       document.getElementById("cardArea").innerHTML = `
-        <img src="${imageA}" alt="${currentWord} A"
+        <img src="${imageA}" alt="カードA"
              onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
-        <img src="${imageB}" alt="${currentWord} B"
+        <img src="${imageB}" alt="カードB"
              onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
       `;
 
       document.getElementById("retry").style.display = "none";
     }
 
+    function hideCard(side) {
+      if (side === 'A') {
+        hideA = true;
+        hideB = false;
+      } else if (side === 'B') {
+        hideA = false;
+        hideB = true;
+      }
+      updateCard();
+    }
+
     function retry() {
       shownWords = [];
       currentWord = "";
+      hideA = false;
+      hideB = false;
       updateCard();
     }
   </script>
