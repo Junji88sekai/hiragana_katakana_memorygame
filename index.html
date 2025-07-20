@@ -116,11 +116,40 @@
 
     // 各単語に対応する正しい行分類
     const wordGroups = {
-      ai: "a", ike: "a", aka: "a", ao: "a", eki: "a", ie: "a", e: "a", kao: "k",
-      kuukou: "k", kikai: "k", ki: "k", kai: "k", aki: "a", kaki: "k", ue: "a",
-      satou: "sa", shio: "sa", tsukue: "sa", isu: "sa", ashi: "a", kuchi: "k",
-      te: "sa", sekai: "sa", kasa: "k", zasshi: "sa", kitte: "sa", tokei: "sa",
-      shita: "sa", sushi: "sa", zou: "sa", usagi: "sa"
+      
+  ai: ["a"],
+  ike: ["a"],
+  aka: ["a"],
+  ao: ["a"],
+  eki: ["a"],
+  ie: ["a"],
+  e: ["a"],
+  kao: ["a"],
+  kuukou: ["a"],
+  kikai: ["a"],
+  ki: ["a"],
+  kai: ["a"],
+  aki: ["a"],
+  kaki: ["a"],
+  ue: ["a"],
+  ashi: ["a"],
+  usagi: ["a"],
+  kuchi: ["a"],
+  kasa: ["a"],
+
+  satou: ["sa"],
+  shio: ["sa"],
+  tsukue: ["sa"],
+  isu: ["sa"],
+  te: ["sa"],
+  sekai: ["sa"],
+  zasshi: ["sa"],
+  kitte: ["sa"],
+  tokei: ["sa"],
+  shita: ["sa"],
+  sushi: ["sa"],
+　zou: ["sa"] // 「ぞ」は「ら・わ行」に分類
+};
     };
 
     let shownWords = [];
