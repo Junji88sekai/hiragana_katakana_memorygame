@@ -150,7 +150,6 @@
   sushi: ["sa"],
 　zou: ["sa"] // 「ぞ」は「ら・わ行」に分類
 };
-    };
 
     let shownWords = [];
     let currentWord = "";
@@ -160,37 +159,36 @@
     let flippedB = false;
 
     function updateCard() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-      if (selectedGroups.length === 0) {
-        document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
-        document.getElementById("retry").style.display = "none";
-        return;
-      }
+  if (selectedGroups.length === 0) {
+    document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
+    document.getElementById("retry").style.display = "none";
+    return;
+  }
 
-      // 正確な行分類でフィルタリング
-      let filtered = words.filter(word =>
-        selectedGroups.includes(wordGroups[word])
-      );
+  let filtered = words.filter(word =>
+    wordGroups[word] && wordGroups[word].some(group => selectedGroups.includes(group))
+  );
 
-      filtered = filtered.filter(word => !shownWords.includes(word));
+  filtered = filtered.filter(word => !shownWords.includes(word));
 
-      if (filtered.length === 0) {
-        document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
-        document.getElementById("retry").style.display = "inline-block";
-        return;
-      }
+  if (filtered.length === 0) {
+    document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
+    document.getElementById("retry").style.display = "inline-block";
+    return;
+  }
 
-      const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-      shownWords.push(randomWord);
-      currentWord = randomWord;
-      flippedA = false;
-      flippedB = false;
+  const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
+  shownWords.push(randomWord);
+  currentWord = randomWord;
+  flippedA = false;
+  flippedB = false;
 
-      renderCards();
-      document.getElementById("retry").style.display = "none";
-    }
+  renderCards();
+  document.getElementById("retry").style.display = "none";
+}
 
     function renderCards() {
       const imageA = hideA && !flippedA
