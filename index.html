@@ -13,7 +13,6 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-
     .title-area {
       background-image: url("images/title-background.jpg");
       background-color: #fce4ec;
@@ -22,25 +21,21 @@
       padding: 40px 0;
       margin-bottom: 20px;
     }
-
     .title-area img {
       max-width: 600px;
       width: 90%;
       height: auto;
     }
-
     .checkbox-group {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 20px;
     }
-
     label {
       margin: 10px;
       font-size: 18px;
     }
-
     .card-pair {
       display: flex;
       justify-content: center;
@@ -49,7 +44,6 @@
       margin: 30px 0;
       flex-wrap: wrap;
     }
-
     .card-pair img {
       max-width: 350px;
       height: auto;
@@ -57,7 +51,6 @@
       background-color: white;
       padding: 10px;
     }
-
     button {
       font-size: 20px;
       padding: 10px 20px;
@@ -68,11 +61,9 @@
       color: white;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #ec407a;
     }
-
     .selected {
       background-color: #d81b60 !important;
     }
@@ -114,42 +105,16 @@
       "shita", "sushi", "zou", "usagi"
     ];
 
-    // 各単語に対応する正しい行分類
     const wordGroups = {
-      
-  ai: ["a"],
-  ike: ["a"],
-  aka: ["a"],
-  ao: ["a"],
-  eki: ["a"],
-  ie: ["a"],
-  e: ["a"],
-  kao: ["a"],
-  kuukou: ["a"],
-  kikai: ["a"],
-  ki: ["a"],
-  kai: ["a"],
-  aki: ["a"],
-  kaki: ["a"],
-  ue: ["a"],
-  ashi: ["a"],
-  usagi: ["a"],
-  kuchi: ["a"],
-  kasa: ["a"],
-
-  satou: ["sa"],
-  shio: ["sa"],
-  tsukue: ["sa"],
-  isu: ["sa"],
-  te: ["sa"],
-  sekai: ["sa"],
-  zasshi: ["sa"],
-  kitte: ["sa"],
-  tokei: ["sa"],
-  shita: ["sa"],
-  sushi: ["sa"],
-　zou: ["sa"] // 「ぞ」は「ら・わ行」に分類
-};
+      ai: ["a"], ike: ["a"], aka: ["a"], ao: ["a"], eki: ["a"],
+      ie: ["a"], e: ["a"], kao: ["a"], kuukou: ["a"], kikai: ["a"],
+      ki: ["a"], kai: ["a"], aki: ["a"], kaki: ["a"], ue: ["a"],
+      ashi: ["a"], usagi: ["a"], kuchi: ["a"], kasa: ["a"],
+      satou: ["sa"], shio: ["sa"], tsukue: ["sa"], isu: ["sa"],
+      te: ["sa"], sekai: ["sa"], zasshi: ["sa"], kitte: ["sa"],
+      tokei: ["sa"], shita: ["sa"], sushi: ["sa"],
+      zou: ["rawa"]
+    };
 
     let shownWords = [];
     let currentWord = "";
@@ -159,45 +124,40 @@
     let flippedB = false;
 
     function updateCard() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-  if (selectedGroups.length === 0) {
-    document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
-    document.getElementById("retry").style.display = "none";
-    return;
-  }
+      if (selectedGroups.length === 0) {
+        document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
+        document.getElementById("retry").style.display = "none";
+        return;
+      }
 
-  let filtered = words.filter(word =>
-    wordGroups[word] && wordGroups[word].some(group => selectedGroups.includes(group))
-  );
+      let filtered = words.filter(word =>
+        wordGroups[word] && wordGroups[word].some(g => selectedGroups.includes(g))
+      );
 
-  filtered = filtered.filter(word => !shownWords.includes(word));
+      filtered = filtered.filter(word => !shownWords.includes(word));
 
-  if (filtered.length === 0) {
-    document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
-    document.getElementById("retry").style.display = "inline-block";
-    return;
-  }
+      if (filtered.length === 0) {
+        document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
+        document.getElementById("retry").style.display = "inline-block";
+        return;
+      }
 
-  const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-  shownWords.push(randomWord);
-  currentWord = randomWord;
-  flippedA = false;
-  flippedB = false;
+      const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
+      shownWords.push(randomWord);
+      currentWord = randomWord;
+      flippedA = false;
+      flippedB = false;
 
-  renderCards();
-  document.getElementById("retry").style.display = "none";
-}
+      renderCards();
+      document.getElementById("retry").style.display = "none";
+    }
 
     function renderCards() {
-      const imageA = hideA && !flippedA
-        ? `images/omoteA.png`
-        : `images/${currentWord}A.png`;
-
-      const imageB = hideB && !flippedB
-        ? `images/omoteB.png`
-        : `images/${currentWord}B.png`;
+      const imageA = hideA && !flippedA ? `images/omoteA.png` : `images/${currentWord}A.png`;
+      const imageB = hideB && !flippedB ? `images/omoteB.png` : `images/${currentWord}B.png`;
 
       document.getElementById("cardArea").innerHTML = `
         <img id="cardA" src="${imageA}" alt="カードA"
@@ -265,4 +225,3 @@
 
 </body>
 </html>
-
