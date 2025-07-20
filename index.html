@@ -72,6 +72,10 @@
     button:hover {
       background-color: #ec407a;
     }
+
+    .selected {
+      background-color: #d81b60 !important;
+    }
   </style>
 </head>
 <body>
@@ -96,121 +100,141 @@
   <!-- 操作ボタン -->
   <div>
     <button onclick="updateCard()">次のカードを表示する</button>
-    <button onclick="hideCard('A')">カードAを隠す</button>
-    <button onclick="hideCard('B')">カードBを隠す</button>
+    <button id="btnHideA" onclick="hideCard('A')">カードAを隠す</button>
+    <button id="btnHideB" onclick="hideCard('B')">カードBを隠す</button>
+    <button id="btnShowBoth" onclick="showBoth()">どちらも表示</button>
     <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
   </div>
 
   <script>
-  const words = [
-    "ai", "ike", "aka", "ao", "eki", "ie", "e", "kao", "kuukou", "kikai",
-    "ki", "kai", "aki", "kaki", "ue", "satou", "shio", "tsukue", "isu",
-    "ashi", "kuchi", "te", "sekai", "kasa", "zasshi", "kitte", "tokei",
-    "shita", "sushi", "zou", "usagi"
-  ];
+    const words = [
+      "ai", "ike", "aka", "ao", "eki", "ie", "e", "kao", "kuukou", "kikai",
+      "ki", "kai", "aki", "kaki", "ue", "satou", "shio", "tsukue", "isu",
+      "ashi", "kuchi", "te", "sekai", "kasa", "zasshi", "kitte", "tokei",
+      "shita", "sushi", "zou", "usagi"
+    ];
 
-  const groups = {
-    a: ["a", "i", "u", "e", "o", "k"],
-    sa: ["s", "sh", "t", "ch", "ts"],
-    na: ["n", "h", "f"],
-    ma: ["m", "y"],
-    rawa: ["r", "w"]
-  };
+    const groups = {
+      a: ["a", "i", "u", "e", "o", "k"],
+      sa: ["s", "sh", "t", "ch", "ts"],
+      na: ["n", "h", "f"],
+      ma: ["m", "y"],
+      rawa: ["r", "w"]
+    };
 
-  let shownWords = [];
-  let currentWord = "";
-  let hideA = false;
-  let hideB = false;
-  let flippedA = false;
-  let flippedB = false;
+    let shownWords = [];
+    let currentWord = "";
+    let hideA = false;
+    let hideB = false;
+    let flippedA = false;
+    let flippedB = false;
 
-  function updateCard() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
+    function updateCard() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-    if (selectedGroups.length === 0) {
-      document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
+      if (selectedGroups.length === 0) {
+        document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
+        document.getElementById("retry").style.display = "none";
+        return;
+      }
+
+      const allowedChars = selectedGroups.flatMap(group => groups[group]);
+
+      let filtered = words.filter(word =>
+        allowedChars.some(char => word.startsWith(char))
+      );
+
+      filtered = filtered.filter(word => !shownWords.includes(word));
+
+      if (filtered.length === 0) {
+        document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
+        document.getElementById("retry").style.display = "inline-block";
+        return;
+      }
+
+      const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
+      shownWords.push(randomWord);
+      currentWord = randomWord;
+      flippedA = false;
+      flippedB = false;
+
+      renderCards();
       document.getElementById("retry").style.display = "none";
-      return;
     }
 
-    const allowedChars = selectedGroups.flatMap(group => groups[group]);
+    function renderCards() {
+      const imageA = hideA && !flippedA
+        ? `images/omoteA.png`
+        : `images/${currentWord}A.png`;
 
-    let filtered = words.filter(word =>
-      allowedChars.some(char => word.startsWith(char))
-    );
+      const imageB = hideB && !flippedB
+        ? `images/omoteB.png`
+        : `images/${currentWord}B.png`;
 
-    filtered = filtered.filter(word => !shownWords.includes(word));
-
-    if (filtered.length === 0) {
-      document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
-      document.getElementById("retry").style.display = "inline-block";
-      return;
+      document.getElementById("cardArea").innerHTML = `
+        <img id="cardA" src="${imageA}" alt="カードA"
+             onclick="flipCard('A')"
+             onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
+        <img id="cardB" src="${imageB}" alt="カードB"
+             onclick="flipCard('B')"
+             onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
+      `;
     }
 
-    const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
-    shownWords.push(randomWord);
-    currentWord = randomWord;
-    flippedA = false;
-    flippedB = false;
-
-    renderCards();
-    document.getElementById("retry").style.display = "none";
-  }
-
-  function renderCards() {
-    const imageA = hideA && !flippedA
-      ? `images/omoteA.png`
-      : `images/${currentWord}A.png`;
-
-    const imageB = hideB && !flippedB
-      ? `images/omoteB.png`
-      : `images/${currentWord}B.png`;
-
-    document.getElementById("cardArea").innerHTML = `
-      <img id="cardA" src="${imageA}" alt="カードA"
-           onclick="flipCard('A')"
-           onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
-      <img id="cardB" src="${imageB}" alt="カードB"
-           onclick="flipCard('B')"
-           onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
-    `;
-  }
-
-  function flipCard(side) {
-    if (side === 'A' && hideA && !flippedA) {
-      flippedA = true;
-      document.getElementById("cardA").src = `images/${currentWord}A.png`;
-    } else if (side === 'B' && hideB && !flippedB) {
-      flippedB = true;
-      document.getElementById("cardB").src = `images/${currentWord}B.png`;
+    function flipCard(side) {
+      if (side === 'A' && hideA && !flippedA) {
+        flippedA = true;
+        document.getElementById("cardA").src = `images/${currentWord}A.png`;
+      } else if (side === 'B' && hideB && !flippedB) {
+        flippedB = true;
+        document.getElementById("cardB").src = `images/${currentWord}B.png`;
+      }
     }
-  }
 
-  function hideCard(side) {
-    if (side === 'A') {
-      hideA = true;
-      hideB = false;
-    } else if (side === 'B') {
+    function hideCard(side) {
+      hideA = (side === 'A');
+      hideB = (side === 'B');
+      flippedA = false;
+      flippedB = false;
+      updateSelectedButton(side);
+      renderCards();
+    }
+
+    function showBoth() {
       hideA = false;
-      hideB = true;
+      hideB = false;
+      flippedA = false;
+      flippedB = false;
+      updateSelectedButton(null);
+      renderCards();
     }
-    flippedA = false;
-    flippedB = false;
-    renderCards();
-  }
 
-  function retry() {
-    shownWords = [];
-    currentWord = "";
-    hideA = false;
-    hideB = false;
-    flippedA = false;
-    flippedB = false;
-    updateCard();
-  }
-</script>
+    function updateSelectedButton(selected) {
+      document.getElementById("btnHideA").classList.remove("selected");
+      document.getElementById("btnHideB").classList.remove("selected");
+      document.getElementById("btnShowBoth").classList.remove("selected");
 
+      if (selected === 'A') {
+        document.getElementById("btnHideA").classList.add("selected");
+      } else if (selected === 'B') {
+        document.getElementById("btnHideB").classList.add("selected");
+      } else {
+        document.getElementById("btnShowBoth").classList.add("selected");
+      }
+    }
+
+    function retry() {
+      shownWords = [];
+      currentWord = "";
+      hideA = false;
+      hideB = false;
+      flippedA = false;
+      flippedB = false;
+      updateSelectedButton(null);
+      updateCard();
+    }
+  </script>
 
 </body>
 </html>
