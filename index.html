@@ -86,7 +86,7 @@
     <label><input type="checkbox" value="sa" onchange="updateCard()"> さ・た行</label>
     <label><input type="checkbox" value="na" onchange="updateCard()"> な・は行</label>
     <label><input type="checkbox" value="ma" onchange="updateCard()"> ま・や行</label>
-    <label><input type="checkbox" value="ma" onchange="updateCard()"> ら・わ行</label>
+    <label><input type="checkbox" value="rawa" onchange="updateCard()"> ら・わ行</label>
   </div>
 
   <!-- カード表示エリア -->
@@ -100,14 +100,15 @@
 
   <script>
     const words = [
-      "aka", "ao", "inu", "neko", "fune", "kuruma", "zou", "yama", "kasa", "sakana"
+      "ai","aka", "ao", "inu", "neko", "fune", "kuruma", "zou", "yama", "kasa", "sakana"
     ];
 
     const groups = {
       a: ["a", "i", "u", "e", "o", "k"],
       sa: ["s", "sh", "t", "ch", "ts"],
       na: ["n", "h", "f"],
-      ma: ["m", "y", "r", "w"]
+      ma: ["m", "y"],
+      rawa: ["r", "w"]
     };
 
     let shownWords = [];
@@ -148,8 +149,8 @@
       const cardImage = `images/${currentWord}A.png`;
 
       document.getElementById("cardArea").innerHTML = `
-        <img id="cardImage" src="${cardImage}" alt="カード">
-        onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
+        <img id="cardImage" src="${cardImage}" alt="カード"
+             onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
       `;
 
       document.getElementById("retry").style.display = "none";
