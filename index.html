@@ -47,6 +47,7 @@
       align-items: center;
       gap: 30px;
       margin: 30px 0;
+      flex-wrap: wrap;
     }
 
     .card-pair img {
@@ -91,7 +92,7 @@
 
   <!-- カード表示エリア -->
   <div class="card-pair" id="cardArea">
-    <!-- 1枚の画像がここに入る -->
+    <!-- 画像がここに入る -->
   </div>
 
   <!-- ボタン -->
@@ -100,7 +101,7 @@
 
   <script>
     const words = [
-      "ai","aka", "ao", "inu", "neko", "fune", "kuruma", "zou", "yama", "kasa", "sakana"
+     "ai", "aka", "ao", "inu","kuukou", "neko", "fune", "kuruma", "zou", "yama", "kasa", "sakana"
     ];
 
     const groups = {
@@ -112,9 +113,7 @@
     };
 
     let shownWords = [];
-    let shownCount = 0;
     let currentWord = "";
-    let flipped = false;
 
     function updateCard() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -142,14 +141,15 @@
 
       const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
       shownWords.push(randomWord);
-      shownCount++;
       currentWord = randomWord;
-      flipped = false;
 
-      const cardImage = `images/${currentWord}A.png`;
+      const imageA = `images/${currentWord}A.png`;
+      const imageB = `images/${currentWord}B.png`;
 
       document.getElementById("cardArea").innerHTML = `
-        <img id="cardImage" src="${cardImage}" alt="カード"
+        <img src="${imageA}" alt="${currentWord} A"
+             onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
+        <img src="${imageB}" alt="${currentWord} B"
              onerror="this.style.border='3px solid red'; alert('画像が読み込めません: ' + this.src);">
       `;
 
@@ -158,20 +158,9 @@
 
     function retry() {
       shownWords = [];
-      shownCount = 0;
       currentWord = "";
-      flipped = false;
       updateCard();
     }
-
-    // エンターキーで反転
-    document.addEventListener("keydown", function(event) {
-      if (event.key === "Enter" && currentWord && !flipped) {
-        const image = document.getElementById("cardImage");
-        image.src = `images/${currentWord}B.png`;
-        flipped = true;
-      }
-    });
   </script>
 
 </body>
