@@ -91,29 +91,29 @@
 
   <!-- カード表示エリア -->
   <div class="card-pair" id="cardArea">
-    <!-- 画像2枚がここに入る -->
+    <!-- 1枚の画像がここに入る -->
   </div>
 
   <!-- ボタン -->
   <button onclick="updateCard()">次のカードを表示する</button>
   <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
 
-  <!-- スクリプト -->
   <script>
     const words = [
-      "あか", "あお", "いぬ", "ねこ", "ふね", "くるま", "ぞう", "やま", "かさ", "さかな"
-      // 必要に応じて追加
+      "aka", "ao", "inu", "neko", "fune", "kuruma", "zou", "yama", "kasa", "sakana"
     ];
 
     const groups = {
-      a: ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ"],
-      sa: ["さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と"],
-      na: ["な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ"],
-      ma: ["ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り", "る", "れ", "ろ", "わ", "を", "ん"]
+      a: ["a", "i", "u", "e", "o", "k"],
+      sa: ["s", "sh", "t", "ch", "ts"],
+      na: ["n", "h", "f"],
+      ma: ["m", "y", "r", "w"]
     };
 
     let shownWords = [];
     let shownCount = 0;
+    let currentWord = "";
+    let flipped = false;
 
     function updateCard() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -126,9 +126,11 @@
       }
 
       const allowedChars = selectedGroups.flatMap(group => groups[group]);
+
       let filtered = words.filter(word =>
-        [...word].every(char => allowedChars.includes(char))
+        allowedChars.some(char => word.startsWith(char))
       );
+
       filtered = filtered.filter(word => !shownWords.includes(word));
 
       if (filtered.length === 0) {
@@ -140,13 +142,13 @@
       const randomWord = filtered[Math.floor(Math.random() * filtered.length)];
       shownWords.push(randomWord);
       shownCount++;
+      currentWord = randomWord;
+      flipped = false;
 
-      const cardImage = `images/${randomWord}A.png`;
-      const illustImage = `images/${randomWord}B.png`;
+      const cardImage = `images/${currentWord}A.png`;
 
       document.getElementById("cardArea").innerHTML = `
-        <img src="${cardImage}" alt="カード">
-        <img src="${illustImage}" alt="イラスト">
+        <img id="cardImage" src="${cardImage}" alt="カード">
       `;
 
       document.getElementById("retry").style.display = "none";
@@ -155,8 +157,19 @@
     function retry() {
       shownWords = [];
       shownCount = 0;
+      currentWord = "";
+      flipped = false;
       updateCard();
     }
+
+    // エンターキーで反転
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" && currentWord && !flipped) {
+        const image = document.getElementById("cardImage");
+        image.src = `images/${currentWord}B.png`;
+        flipped = true;
+      }
+    });
   </script>
 
 </body>
