@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ひらがな単語ゲーム</title>
+  <title>ひらがなカードゲーム</title>
   <style>
     body {
       font-family: sans-serif;
@@ -20,8 +20,6 @@
       background-size: cover;
       background-position: center;
       padding: 40px 0;
-      width: 100%;
-      text-align: center;
       margin-bottom: 20px;
     }
 
@@ -43,26 +41,20 @@
       font-size: 18px;
     }
 
-    .display-area {
+    .card-pair {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin: 30px 0;
     }
 
-    #word {
-      font-size: 130px;
-      margin: 40px 0 10px;
-      color: #222;
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 10px 20px;
+    .card-pair img {
+      max-width: 250px;
+      height: auto;
       border-radius: 10px;
-    }
-
-    #image {
-      max-width: 300px;
-      display: none;
-      margin-top: 10px;
+      background-color: white;
+      padding: 10px;
     }
 
     button {
@@ -83,36 +75,33 @@
 </head>
 <body>
 
+  <!-- タイトル -->
   <div class="title-area">
     <img src="images/title.png" alt="タイトル画像">
   </div>
 
+  <!-- チェックボックス -->
   <div class="checkbox-group">
-    <label><input type="checkbox" value="a" onchange="updateWord()"> あ・か行</label>
-    <label><input type="checkbox" value="sa" onchange="updateWord()"> さ・た行</label>
-    <label><input type="checkbox" value="na" onchange="updateWord()"> な・は行</label>
-    <label><input type="checkbox" value="ma" onchange="updateWord()"> ま・や・ら・わ行</label>
+    <label><input type="checkbox" value="a" onchange="updateCard()"> あ・か行</label>
+    <label><input type="checkbox" value="sa" onchange="updateCard()"> さ・た行</label>
+    <label><input type="checkbox" value="na" onchange="updateCard()"> な・は行</label>
+    <label><input type="checkbox" value="ma" onchange="updateCard()"> ま・や・ら・わ行</label>
   </div>
 
-  <div class="display-area">
-    <div id="word">チェックを入れてください</div>
-    <img id="image" src="" alt="ことばの画像">
+  <!-- カード表示エリア -->
+  <div class="card-pair" id="cardArea">
+    <!-- 画像2枚がここに入る -->
   </div>
 
-  <button onclick="updateWord()">次のひらがなを表示する</button>
+  <!-- ボタン -->
+  <button onclick="updateCard()">次のカードを表示する</button>
   <button id="retry" onclick="retry()" style="display:none;">もう一度</button>
 
+  <!-- スクリプト -->
   <script>
     const words = [
-      "あか", "あお", "うえ", "あい", "いえ", "えき", "くうこう", "き", "かお", "いけ",
-      "きかい", "かき", "いか", "かい", "あき", "さとう", "しお", "つくえ", "いす", "あし",
-      "て", "くち", "せかい", "ざっし", "きって", "とけい", "かさ", "すし", "うさぎ", "ぞう",
-      "した", "さかな", "にく", "いぬ", "ねこ", "ひこうき", "ふね", "ふうとう", "はがき", "はな",
-      "どうぶつ", "ほし", "ひ", "ほね", "のど", "なべ", "おかね", "やま", "うみ", "くも",
-      "ゆき", "め", "みみ", "ともだち", "きょうだい", "やさい", "くだもの", "たまご",
-      "ぎゅうにゅう", "じしょ", "きょうしつ", "むし", "めがね", "くるま", "じてんしゃ",
-      "でんしゃ", "かわ", "ひる", "よる", "ひらがな", "かんじ", "でんわ", "れいぞうこ",
-      "おふろ", "くすり", "ぎんこう", "からだ", "みかん", "りんごをたべます"
+      "あか", "あお", "いぬ", "ねこ", "ふね", "くるま", "ぞう", "やま", "かさ", "さかな"
+      // 必要に応じて追加
     ];
 
     const groups = {
@@ -125,13 +114,12 @@
     let shownWords = [];
     let shownCount = 0;
 
-    function updateWord() {
+    function updateCard() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
       const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
       if (selectedGroups.length === 0) {
-        document.getElementById("word").textContent = "チェックを入れてください";
-        document.getElementById("image").style.display = "none";
+        document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
         document.getElementById("retry").style.display = "none";
         return;
       }
@@ -143,8 +131,7 @@
       filtered = filtered.filter(word => !shownWords.includes(word));
 
       if (filtered.length === 0) {
-        document.getElementById("word").textContent = "すべてのことばを表示しました！";
-        document.getElementById("image").style.display = "none";
+        document.getElementById("cardArea").innerHTML = "<p>すべてのカードを表示しました！</p>";
         document.getElementById("retry").style.display = "inline-block";
         return;
       }
@@ -153,23 +140,13 @@
       shownWords.push(randomWord);
       shownCount++;
 
-      const maruNumbers = ["①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑩",
-                           "⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳"];
-      const prefix = shownCount <= maruNumbers.length
-        ? maruNumbers[shownCount - 1]
-        : `(${shownCount})`;
+      const cardImage = `images/${randomWord}A.png`;
+      const illustImage = `images/${randomWord}B.png`;
 
-      document.getElementById("word").textContent = `${prefix} ${randomWord}`;
-
-      const image = document.getElementById("image");
-      image.src = `images/${randomWord}.png`;
-      image.style.display = "block";
-      image.onerror = () => {
-        image.src = `images/${randomWord}.jpg`;
-        image.onerror = () => {
-          image.style.display = "none";
-        };
-      };
+      document.getElementById("cardArea").innerHTML = `
+        <img src="${cardImage}" alt="カード">
+        <img src="${illustImage}" alt="イラスト">
+      `;
 
       document.getElementById("retry").style.display = "none";
     }
@@ -177,10 +154,9 @@
     function retry() {
       shownWords = [];
       shownCount = 0;
-      updateWord();
+      updateCard();
     }
   </script>
 
 </body>
 </html>
-
