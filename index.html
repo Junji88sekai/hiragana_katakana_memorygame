@@ -114,12 +114,13 @@
       "shita", "sushi", "zou", "usagi"
     ];
 
-    const groups = {
-      a: ["a", "i", "u", "e", "o", "k"],
-      sa: ["s", "sh", "t", "ch", "ts"],
-      na: ["n", "h", "f"],
-      ma: ["m", "y"],
-      rawa: ["r", "w"]
+    // 各単語に対応する正しい行分類
+    const wordGroups = {
+      ai: "a", ike: "a", aka: "a", ao: "a", eki: "a", ie: "a", e: "a", kao: "k",
+      kuukou: "k", kikai: "k", ki: "k", kai: "k", aki: "a", kaki: "k", ue: "a",
+      satou: "sa", shio: "sa", tsukue: "sa", isu: "a", ashi: "a", kuchi: "k",
+      te: "sa", sekai: "sa", kasa: "k", zasshi: "sa", kitte: "k", tokei: "sa",
+      shita: "sa", sushi: "sa", zou: "rawa", usagi: "a"
     };
 
     let shownWords = [];
@@ -139,10 +140,9 @@
         return;
       }
 
-      const allowedChars = selectedGroups.flatMap(group => groups[group]);
-
+      // 正確な行分類でフィルタリング
       let filtered = words.filter(word =>
-        allowedChars.some(char => word.startsWith(char))
+        selectedGroups.includes(wordGroups[word])
       );
 
       filtered = filtered.filter(word => !shownWords.includes(word));
@@ -238,3 +238,4 @@
 
 </body>
 </html>
+
