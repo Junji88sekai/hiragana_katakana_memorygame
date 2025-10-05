@@ -46,13 +46,17 @@
       flex-wrap: wrap;
     }
     .card-pair img {
-      width: 50px; /* サイズを50pxに固定 */
-      height: 50px; /* サイズを50pxに固定 */
-      border-radius: 10px;
-      background-color: white;
-      padding: 5px;
-      cursor: pointer;
-    }
+     /* --- 新しい設定案 --- */
+     max-width: 300px;  /* カードの最大の横幅 (この数値を調整してください) */
+     width: 70%;        /* 親要素(画面)に対して70%の幅にする */
+     height: auto;      /* 高さは画像の比率を保ったまま自動で調整する */
+     /* ------------------- */
+
+     border-radius: 10px;
+     background-color: white;
+     padding: 5px;
+     cursor: pointer;
+   }
     button {
       font-size: 20px;
       padding: 10px 20px;
@@ -306,3 +310,4 @@
 
 </body>
 </html>
+
