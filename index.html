@@ -45,13 +45,16 @@
       margin: 30px 0;
       flex-wrap: wrap;
     }
-    .card-pair img {
-     /* --- 新しい設定案 --- */
-     max-width: 150px;  /* カードの最大の横幅 (この数値を調整してください) */
-     width: 70%;        /* 親要素(画面)に対して70%の幅にする */
-     height: auto;      /* 高さは画像の比率を保ったまま自動で調整する */
-     /* ------------------- */
+    /* 以前のセレクタ .card-pair img の代わりに、#card を使います */
+   #card {
+     /* サイズ設定 */
+     max-width: 150px;  /* ここが反映させたいサイズ */
+     width: 100%;       /* 親要素に対して100%の幅にする */
+     height: auto;      /* 高さは自動調整 */
 
+     /* その他のスタイル */
+     display: block; /* 中央寄せのために追加 */
+     margin: 0 auto; /* 中央寄せのために追加 */
      border-radius: 10px;
      background-color: white;
      padding: 5px;
@@ -310,5 +313,6 @@
 
 </body>
 </html>
+
 
 
