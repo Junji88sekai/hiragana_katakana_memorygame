@@ -46,7 +46,8 @@
       flex-wrap: wrap;
     }
     .card-pair img {
-      max-width: 350px;
+      **max-width: 250px; /* カード画像の最大幅を350pxから250pxに縮小 */**
+      **width: 90%; /* 小さい画面での柔軟な対応 */**
       height: auto;
       border-radius: 10px;
       background-color: white;
@@ -231,7 +232,7 @@
         document.getElementById("cardArea").innerHTML = `
             <img id="card" src="${imagePath}" alt="カード"
                 onclick="flipCard()"
-                onerror="this.style.border='3px solid red'; console.error('画像が読み込めません: ' + this.src);">
+                **onerror="this.style.border='3px solid red'; console.error('画像が読み込めません: ' + this.src);">**
         `;
     }
 
