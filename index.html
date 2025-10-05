@@ -14,20 +14,20 @@
       background-repeat: no-repeat;
     }
    .title-area {
-        background-color: white;
-        background-image: none;
-        padding: 0;
-        margin-bottom: 0;
-    }
+        background-color: white;
+        background-image: none;
+        padding: 0;
+        margin-bottom: 0;
+    }
     .title-area img {
       max-width: 500px;
       width: 90%;
       height: auto;
     }
     .mode-select {
-        margin-bottom: 20px;
-        font-size: 18px;
-    }
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
     .checkbox-group {
       display: flex;
       flex-wrap: wrap;
@@ -46,13 +46,13 @@
       flex-wrap: wrap;
     }
     .card-pair img {
-      **max-width: 120px; /* カード画像の最大幅を350pxから250pxに縮小 */**
-      **width: 90%; /* 小さい画面での柔軟な対応 */**
+      **max-width: 120px; /* カード画像の最大幅を120pxに設定 (調整済み) */**
+      **width: 90%; /* 画面幅に応じて調整 (調整済み) */**
       height: auto;
       border-radius: 10px;
       background-color: white;
       padding: 10px;
-      cursor: pointer;
+      cursor: pointer;
     }
     button {
       font-size: 20px;
@@ -75,13 +75,13 @@
     <img src="images/title.png" alt="タイトル画像">
   </div>
 
-    <div class="mode-select">
-    <label>
-        <input type="radio" name="mode" value="word" checked onclick="retry()"> **単語モード**
-    </label>
-    <label>
-        <input type="radio" name="mode" value="kana" onclick="retry()"> **かなモード**
-    </label>
+    <div class="mode-select">
+    <label>
+        <input type="radio" name="mode" value="word" checked onclick="retry()"> **単語モード**
+    </label>
+    <label>
+        <input type="radio" name="mode" value="kana" onclick="retry()"> **かなモード**
+    </label>
   </div>
 
     <div class="checkbox-group">
@@ -100,7 +100,7 @@
   </div>
 
   <script>
-    // --- データ定義 (単語モード) ---
+    // --- データ定義 (単語モード) ---
     const words = [
       "ai", "ike", "aka", "ao", "eki", "ie", "e", "kao", "kuukou", "kikai",
       "ki", "kai", "aki", "kaki", "ue", "satou", "shio", "tsukue", "isu",
@@ -108,7 +108,7 @@
       "shita", "sushi", "zou", "usagi", "ika"
     ];
 
-    // 単語の分類データ (行グループはチェックボックスのvalueと一致)
+    // 単語の分類データ (行グループはチェックボックスのvalueと一致)
     const wordGroups = {
       ai: ["a"], ike: ["a"], ika: ["a"], aka: ["a"], ao: ["a"], eki: ["a"],
       ie: ["a"], e: ["a"], kao: ["a"], kuukou: ["a"], kikai: ["a"],
@@ -120,151 +120,148 @@
       zou: ["sa"]
     };
 
-    // --- データ定義 (かなモード) ---
-    // kanaMap: ローマ字 -> {グループ, かな文字} の対応表
-    const kanaMap = {
-      a: { group: 'a', kana: 'あ' }, i: { group: 'a', kana: 'い' }, u: { group: 'a', kana: 'う' }, e: { group: 'a', kana: 'え' }, o: { group: 'a', kana: 'お' },
-      ka: { group: 'a', kana: 'か' }, ki: { group: 'a', kana: 'き' }, ku: { group: 'a', kana: 'く' }, ke: { group: 'a', kana: 'け' }, ko: { group: 'a', kana: 'こ' },
-      sa: { group: 'sa', kana: 'さ' }, shi: { group: 'sa', kana: 'し' }, su: { group: 'sa', kana: 'す' }, se: { group: 'sa', kana: 'せ' }, so: { group: 'sa', kana: 'そ' },
-      ta: { group: 'sa', kana: 'た' }, chi: { group: 'sa', kana: 'ち' }, tsu: { group: 'sa', kana: 'つ' }, te: { group: 'sa', kana: 'て' }, to: { group: 'sa', kana: 'と' },
-      na: { group: 'na', kana: 'な' }, ni: { group: 'na', kana: 'に' }, nu: { group: 'na', kana: 'ぬ' }, ne: { group: 'na', kana: 'ね' }, no: { group: 'na', kana: 'の' },
-      ha: { group: 'na', kana: 'は' }, hi: { group: 'na', kana: 'ひ' }, fu: { group: 'na', kana: 'ふ' }, he: { group: 'na', kana: 'へ' }, ho: { group: 'na', kana: 'ほ' },
-      ma: { group: 'ma', kana: 'ま' }, mi: { group: 'ma', kana: 'み' }, mu: { group: 'ma', kana: 'む' }, me: { group: 'ma', kana: 'め' }, mo: { group: 'ma', kana: 'も' },
-      ya: { group: 'ma', kana: 'や' }, yu: { group: 'ma', kana: 'ゆ' }, yo: { group: 'ma', kana: 'よ' },
-      ra: { group: 'rawa', kana: 'ら' }, ri: { group: 'rawa', kana: 'り' }, ru: { group: 'rawa', kana: 'る' }, re: { group: 'rawa', kana: 'れ' }, ro: { group: 'rawa', kana: 'ろ' },
-      wa: { group: 'rawa', kana: 'わ' }, o_wo: { group: 'rawa', kana: 'を' }, n: { group: 'rawa', kana: 'ん' }
-    };
-    const allKanas = Object.keys(kanaMap); // アイテムリストはローマ字で管理
+    // --- データ定義 (かなモード) ---
+    // kanaMap: ローマ字 -> {グループ, かな文字} の対応表
+    const kanaMap = {
+      a: { group: 'a', kana: 'あ' }, i: { group: 'a', kana: 'い' }, u: { group: 'a', kana: 'う' }, e: { group: 'a', kana: 'え' }, o: { group: 'a', kana: 'お' },
+      ka: { group: 'a', kana: 'か' }, ki: { group: 'a', kana: 'き' }, ku: { group: 'a', kana: 'く' }, ke: { group: 'a', kana: 'け' }, ko: { group: 'a', kana: 'こ' },
+      sa: { group: 'sa', kana: 'さ' }, shi: { group: 'sa', kana: 'し' }, su: { group: 'sa', kana: 'す' }, se: { group: 'sa', kana: 'せ' }, so: { group: 'sa', kana: 'そ' },
+      ta: { group: 'sa', kana: 'た' }, chi: { group: 'sa', kana: 'ち' }, tsu: { group: 'sa', kana: 'つ' }, te: { group: 'sa', kana: 'て' }, to: { group: 'sa', kana: 'と' },
+      na: { group: 'na', kana: 'な' }, ni: { group: 'na', kana: 'に' }, nu: { group: 'na', kana: 'ぬ' }, ne: { group: 'na', kana: 'ね' }, no: { group: 'na', kana: 'の' },
+      ha: { group: 'na', kana: 'は' }, hi: { group: 'na', kana: 'ひ' }, fu: { group: 'na', kana: 'ふ' }, he: { group: 'na', kana: 'へ' }, ho: { group: 'na', kana: 'ほ' },
+      ma: { group: 'ma', kana: 'ま' }, mi: { group: 'ma', kana: 'み' }, mu: { group: 'ma', kana: 'む' }, me: { group: 'ma', kana: 'め' }, mo: { group: 'ma', kana: 'も' },
+      ya: { group: 'ma', kana: 'や' }, yu: { group: 'ma', kana: 'ゆ' }, yo: { group: 'ma', kana: 'よ' },
+      ra: { group: 'rawa', kana: 'ら' }, ri: { group: 'rawa', kana: 'り' }, ru: { group: 'rawa', kana: 'る' }, re: { group: 'rawa', kana: 'れ' }, ro: { group: 'rawa', kana: 'ろ' },
+      wa: { group: 'rawa', kana: 'わ' }, o_wo: { group: 'rawa', kana: 'を' }, n: { group: 'rawa', kana: 'ん' }
+    };
+    const allKanas = Object.keys(kanaMap); // アイテムリストはローマ字で管理
 
-    // --- 状態管理変数 ---
+    // --- 状態管理変数 ---
     let shownWords = [];
-    let shownKanas = [];
-    let currentItem = ""; 
-    let isFlipped = false; 
-    let currentMode = "word"; 
+    let shownKanas = [];
+    let currentItem = "";
+    let isFlipped = false;
+    let currentMode = "word";
 
-    function getMode() {
-        const checkedRadio = document.querySelector('input[name="mode"]:checked');
-        return checkedRadio ? checkedRadio.value : 'word';
-    }
-
-    function updateCard() {
-        currentMode = getMode();
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
-
-        if (selectedGroups.length === 0) {
-          document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
-          document.getElementById("retry").style.display = "none";
-          return;
-        }
-
-        // 1. データソースの選択
-        let availableItems;
-        let shownItems;
-        let itemGroups;
-
-        if (currentMode === "word") {
-            availableItems = words;
-            shownItems = shownWords;
-            itemGroups = wordGroups;
-        } else {
-            availableItems = allKanas;
-            shownItems = shownKanas;
-            itemGroups = kanaMap;
-        }
-        
-        // 2. 選択されたグループに基づいたフィルタリング
-        let filtered = availableItems.filter(item => {
-            if (currentMode === "word") {
-                return itemGroups[item] && itemGroups[item].some(g => selectedGroups.includes(g));
-            } else {
-                return selectedGroups.includes(itemGroups[item].group);
-            }
-        });
-
-        filtered = filtered.filter(item => !shownItems.includes(item));
-
-        // 3. 完了チェック
-        if (filtered.length === 0) {
-          document.getElementById("cardArea").innerHTML = `<p>${currentMode === "word" ? "すべての単語" : "すべてのかな"}を表示しました！</p>`;
-          document.getElementById("retry").style.display = "inline-block";
-          return;
-        }
-
-        // 4. 新しいカードの選択と状態更新
-        const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
-        shownItems.push(randomItem); 
-        currentItem = randomItem; // ローマ字 (例: 'a') が入る
-        isFlipped = false; // 常に表面から開始
-
-        renderCard();
-        document.getElementById("retry").style.display = "none";
+    function getMode() {
+        const checkedRadio = document.querySelector('input[name="mode"]:checked');
+        return checkedRadio ? checkedRadio.value : 'word';
     }
 
-    // カードをレンダリングする関数 (1枚のみ)
-    function renderCard() {
-        let baseName;
-        let suffix; 
-        let imagePath;
+    function updateCard() {
+        currentMode = getMode();
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-        if (currentMode === "word") {
-            // 単語モード: "単語名A.png" (表) / "単語名B.png" (裏)
-            baseName = currentItem;
-            suffix = isFlipped ? `B.png` : `A.png`;
-            imagePath = `images/${baseName}${suffix}`;
-            
-        } else { 
-            // かなモード: "かな文字-kana.png" (表) / "かな文字-roma.png" (裏)
-            const kanaChar = kanaMap[currentItem].kana; // 例: 'あ'
-            
-            if (!isFlipped) {
-                // 表面 (かな文字-kana.png)
-                suffix = `-kana.png`;
-            } else {
-                // 裏面 (かな文字-roma.png)
-                suffix = `-roma.png`;
-            }
-            
-            imagePath = `images/${kanaChar}${suffix}`;
-        }
-        
-        document.getElementById("cardArea").innerHTML = `
+        if (selectedGroups.length === 0) {
+          document.getElementById("cardArea").innerHTML = "<p>チェックを入れてください</p>";
+          document.getElementById("retry").style.display = "none";
+          return;
+        }
+
+        // 1. データソースの選択
+        let availableItems;
+        let shownItems;
+        let itemGroups;
+
+        if (currentMode === "word") {
+            availableItems = words;
+            shownItems = shownWords;
+            itemGroups = wordGroups;
+        } else {
+            availableItems = allKanas;
+            shownItems = shownKanas;
+            itemGroups = kanaMap;
+        }
+
+        // 2. 選択されたグループに基づいたフィルタリング
+        let filtered = availableItems.filter(item => {
+            if (currentMode === "word") {
+                return itemGroups[item] && itemGroups[item].some(g => selectedGroups.includes(g));
+            } else {
+                return selectedGroups.includes(itemGroups[item].group);
+            }
+        });
+
+        filtered = filtered.filter(item => !shownItems.includes(item));
+
+        // 3. 完了チェック
+        if (filtered.length === 0) {
+          document.getElementById("cardArea").innerHTML = `<p>${currentMode === "word" ? "すべての単語" : "すべてのかな"}を表示しました！</p>`;
+          document.getElementById("retry").style.display = "inline-block";
+          return;
+        }
+
+        // 4. 新しいカードの選択と状態更新
+        const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
+        shownItems.push(randomItem);
+        currentItem = randomItem; // ローマ字 (例: 'a') が入る
+        isFlipped = false; // 常に表面から開始
+
+        renderCard();
+        document.getElementById("retry").style.display = "none";
+    }
+
+    // カードをレンダリングする関数 (1枚のみ)
+    function renderCard() {
+        let baseName;
+        let suffix;
+        let imagePath;
+
+        if (currentMode === "word") {
+            // 単語モード: "単語名A.png" (表) / "単語名B.png" (裏)
+            baseName = currentItem;
+            suffix = isFlipped ? `B.png` : `A.png`;
+            imagePath = `images/${baseName}${suffix}`;
+
+        } else {
+            // かなモード: "かな文字-kana.png" (表) / "かな文字-roma.png" (裏)
+            const kanaChar = kanaMap[currentItem].kana; // 例: 'あ'
+
+            if (!isFlipped) {
+                // 表面 (かな文字-kana.png)
+                suffix = `-kana.png`;
+            } else {
+                // 裏面 (かな文字-roma.png)
+                suffix = `-roma.png`;
+            }
+
+            imagePath = `images/${kanaChar}${suffix}`;
+        }
+
+        document.getElementById("cardArea").innerHTML = `
             <img id="card" src="${imagePath}" alt="カード"
                 onclick="flipCard()"
-                **onerror="this.style.border='3px solid red'; console.error('画像が読み込めません: ' + this.src);">**
+                onerror="this.style.border='3px solid red'; console.error('画像が読み込めません: ' + this.src);">
         `;
     }
 
-    // カードを裏返す関数
+    // カードを裏返す関数
     function flipCard() {
-        if (!currentItem) return; 
-        isFlipped = !isFlipped; 
-        renderCard(); 
+        if (!currentItem) return;
+        isFlipped = !isFlipped;
+        renderCard();
     }
 
-    // 最初からやり直す
+    // 最初からやり直す
     function retry() {
-        currentMode = getMode();
-        // 選択されたモードの表示済みリストのみをリセット
-        if (currentMode === "word") {
-            shownWords = [];
-        } else if (currentMode === "kana") {
-            shownKanas = [];
-        }
-        currentItem = "";
-        isFlipped = false;
-        
-        document.getElementById("cardArea").innerHTML = "";
-        updateCard();
+        currentMode = getMode();
+        // 選択されたモードの表示済みリストのみをリセット
+        if (currentMode === "word") {
+            shownWords = [];
+        } else if (currentMode === "kana") {
+            shownKanas = [];
+        }
+        currentItem = "";
+        isFlipped = false;
+
+        document.getElementById("cardArea").innerHTML = "";
+        updateCard();
     }
-    
-    // 初期ロード
-    updateCard();
+
+    // 初期ロード
+    updateCard();
   </script>
 
 </body>
 </html>
-
-
-
