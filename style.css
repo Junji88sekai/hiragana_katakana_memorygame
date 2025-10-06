@@ -1,0 +1,21 @@
+/* style.css */
+body {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 30px;
+  background-image: url("images/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.title-area {
+    background-color: white;
+    /* (中略... すべてのCSSルールをここに記述) */
+}
+
+.hint {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
