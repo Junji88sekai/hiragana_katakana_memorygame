@@ -1,24 +1,21 @@
 // --- データ定義 (単語モード) ---
+// 新しい単語リスト (ひらがな表記)
 const words = [
-  "ai", "ike", "aka", "ao", "eki", "ie", "e", "kao", "kuukou", "kikai",
-  "ki", "kai", "aki", "kaki", "ue", "satou", "shio", "tsukue", "isu",
-  "ashi", "kuchi", "te", "sekai", "kasa", "zasshi", "kitte", "tokei",
-  "shita", "sushi", "zou", "usagi", "ika"
+  "あか", "あお", "うえ", "あい", "いえ", "えき", "くうこう", "き", "え", "かお",
+  "いけ", "きかい", "かき", "いか", "かい", "あき", "さとう", "しお", "つくえ", "いす",
+  "あし", "て", "くち", "せかい", "ざっし", "きって", "とけい", "かさ", "すし",
+  "うさぎ", "ぞう", "した", "さかな", "にく", "いぬ", "ねこ", "ひこうき", "ふね",
+  "ふうとう", "はがき", "はな", "どうぶつ", "ほし", "ひ", "ほね", "のど", "なべ",
+  "おかね", "やま", "うみ", "くも", "ゆき", "め", "みみ", "ともだち", "きょうだい",
+  "やさい", "くだもの", "たまご", "ぎゅうにゅう", "じしょ", "きょうしつ", "むし",
+  "めがね", "くるま", "じてんしゃ", "でんしゃ", "かわ", "ひる", "よる", "ひらがな",
+  "かんじ", "でんわ", "れいぞうこ", "おふろ", "くすり", "ぎんこう", "からだ", "みかん", "りんご"
 ];
 
-// 単語の分類データ
-const wordGroups = {
-  ai: ["a"], ike: ["a"], ika: ["a"], aka: ["a"], ao: ["a"], eki: ["a"],
-  ie: ["a"], e: ["a"], kao: ["a"], kuukou: ["a"], kikai: ["a"],
-  ki: ["a"], kai: ["a"], aki: ["a"], kaki: ["a"], ue: ["a"],
-  ashi: ["sa"], usagi: ["sa"], kuchi: ["sa"], kasa: ["sa"],
-  satou: ["sa"], shio: ["sa"], tsukue: ["sa"], isu: ["sa"],
-  te: ["sa"], sekai: ["sa"], zasshi: ["sa"], kitte: ["sa"],
-  tokei: ["sa"], shita: ["sa"], sushi: ["sa"],
-  zou: ["sa"]
-};
+// wordGroupsは不要になりました。プログラムが自動で判断します。
 
 // --- データ定義 (かなモード) ---
+// 濁音・半濁音・拗音を含む新しいかなマップ
 const kanaMap = {
   a: { group: 'a', kana: 'あ' }, i: { group: 'a', kana: 'い' }, u: { group: 'a', kana: 'う' }, e: { group: 'a', kana: 'え' }, o: { group: 'a', kana: 'お' },
   ka: { group: 'a', kana: 'か' }, ki: { group: 'a', kana: 'き' }, ku: { group: 'a', kana: 'く' }, ke: { group: 'a', kana: 'け' }, ko: { group: 'a', kana: 'こ' },
@@ -29,17 +26,41 @@ const kanaMap = {
   ma: { group: 'ma', kana: 'ま' }, mi: { group: 'ma', kana: 'み' }, mu: { group: 'ma', kana: 'む' }, me: { group: 'ma', kana: 'め' }, mo: { group: 'ma', kana: 'も' },
   ya: { group: 'ma', kana: 'や' }, yu: { group: 'ma', kana: 'ゆ' }, yo: { group: 'ma', kana: 'よ' },
   ra: { group: 'rawa', kana: 'ら' }, ri: { group: 'rawa', kana: 'り' }, ru: { group: 'rawa', kana: 'る' }, re: { group: 'rawa', kana: 'れ' }, ro: { group: 'rawa', kana: 'ろ' },
-  wa: { group: 'rawa', kana: 'わ' }, o_wo: { group: 'rawa', kana: 'を' }, n: { group: 'rawa', kana: 'ん' }
+  wa: { group: 'rawa', kana: 'わ' }, wo: { group: 'rawa', kana: 'を' }, n: { group: 'rawa', kana: 'ん' },
+  ga: { group: 'a', kana: 'が' }, gi: { group: 'a', kana: 'ぎ' }, gu: { group: 'a', kana: 'ぐ' }, ge: { group: 'a', kana: 'げ' }, go: { group: 'a', kana: 'ご' },
+  za: { group: 'sa', kana: 'ざ' }, ji: { group: 'sa', kana: 'じ' }, zu: { group: 'sa', kana: 'ず' }, ze: { group: 'sa', kana: 'ぜ' }, zo: { group: 'sa', kana: 'ぞ' },
+  da: { group: 'sa', kana: 'だ' }, di: { group: 'sa', kana: 'ぢ' }, du: { group: 'sa', kana: 'づ' }, de: { group: 'sa', kana: 'で' }, do: { group: 'sa', kana: 'ど' },
+  ba: { group: 'na', kana: 'ば' }, bi: { group: 'na', kana: 'び' }, bu: { group: 'na', kana: 'ぶ' }, be: { group: 'na', kana: 'べ' }, bo: { group: 'na', kana: 'ぼ' },
+  pa: { group: 'na', kana: 'ぱ' }, pi: { group: 'na', kana: 'ぴ' }, pu: { group: 'na', kana: 'ぷ' }, pe: { group: 'na', kana: 'ぺ' }, po: { group: 'na', kana: 'ぽ' },
+  kya: { group: 'a', kana: 'きゃ' }, kyu: { group: 'a', kana: 'きゅ' }, kyo: { group: 'a', kana: 'きょ' },
+  gya: { group: 'a', kana: 'ぎゃ' }, gyu: { group: 'a', kana: 'ぎゅ' }, gyo: { group: 'a', kana: 'ぎょ' },
+  sha: { group: 'sa', kana: 'しゃ' }, shu: { group: 'sa', kana: 'しゅ' }, sho: { group: 'sa', kana: 'しょ' },
+  ja: { group: 'sa', kana: 'じゃ' }, ju: { group: 'sa', kana: 'じゅ' }, jo: { group: 'sa', kana: 'じょ' },
+  cha: { group: 'sa', kana: 'ちゃ' }, chu: { group: 'sa', kana: 'ちゅ' }, cho: { group: 'sa', kana: 'ちょ' },
+  dya: { group: 'sa', kana: 'ぢゃ' }, dyu: { group: 'sa', kana: 'ぢゅ' }, dyo: { group: 'sa', kana: 'ぢょ' },
+  nya: { group: 'na', kana: 'にゃ' }, nyu: { group: 'na', kana: 'にゅ' }, nyo: { group: 'na', kana: 'にょ' },
+  hya: { group: 'na', kana: 'ひゃ' }, hyu: { group: 'na', kana: 'ひゅ' }, hyo: { group: 'na', kana: 'ひょ' },
+  bya: { group: 'na', kana: 'びゃ' }, byu: { group: 'na', kana: 'びゅ' }, byo: { group: 'na', kana: 'びょ' },
+  pya: { group: 'na', kana: 'ぴゃ' }, pyu: { group: 'na', kana: 'ぴゅ' }, pyo: { group: 'na', kana: 'ぴょ' },
+  mya: { group: 'ma', kana: 'みゃ' }, myu: { group: 'ma', kana: 'みゅ' }, myo: { group: 'ma', kana: 'みょ' },
+  rya: { group: 'rawa', kana: 'りゃ' }, ryu: { group: 'rawa', kana: 'りゅ' }, ryo: { group: 'rawa', kana: 'りょ' }
 };
-const allKanas = Object.keys(kanaMap); 
+
+// 逆引きマップを作成して、かな文字からローマ字キーを取得できるようにする
+const kanaToRomajiMap = {};
+for (const key in kanaMap) {
+  kanaToRomajiMap[kanaMap[key].kana] = key;
+}
+
+const allKanas = Object.keys(kanaMap);
 
 // --- 状態管理変数 ---
-let availableWords = []; // 現在のチェックボックス設定で表示可能な単語リスト
-let availableKanas = []; // 現在のチェックボックス設定で表示可能なかなリスト
-let cardHistory = []; // 表示したカードの履歴 (currentItemを格納)
-let currentItem = ""; // 現在表示中のカード (ローマ字)
-let isFlipped = false; 
-let currentMode = "word"; 
+let availableWords = [];
+let availableKanas = [];
+let cardHistory = [];
+let currentItem = ""; // 現在表示中のカード (単語モードではひらがな、かなモードではローマ字)
+let isFlipped = false;
+let currentMode = "word";
 
 // --- モードと初期化 ---
 
@@ -48,28 +69,30 @@ function getMode() {
     return checkedRadio ? checkedRadio.value : 'word';
 }
 
-// 履歴をリセットし、利用可能なリストを再構築
 function retry() {
     currentMode = getMode();
     cardHistory = [];
     currentItem = "";
     isFlipped = false;
-    
-    // フィルタリング処理を実行して、利用可能リストを更新
     filterAvailableItems();
-    
     document.getElementById("cardArea").innerHTML = "";
-    updateCard(); // 最初のカードを表示
+    updateCard();
 }
 
-// チェックボックスの状態に基づき、availableItemsを更新
+// チェックボックスの状態に基づき、利用可能なリストを更新
 function filterAvailableItems() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const selectedGroups = Array.from(checkboxes).map(cb => cb.value);
 
-    // 単語モードのフィルタリング
-    availableWords = words.filter(item => {
-        return wordGroups[item] && wordGroups[item].some(g => selectedGroups.includes(g));
+    // 単語モードのフィルタリング（自動化）
+    availableWords = words.filter(word => {
+        const firstKana = word.charAt(0); // 単語の最初のかな文字を取得
+        const romajiKey = kanaToRomajiMap[firstKana]; // かな文字からローマ字キーを取得
+        if (romajiKey && kanaMap[romajiKey]) {
+            const group = kanaMap[romajiKey].group; // ローマ字キーからグループを取得
+            return selectedGroups.includes(group); // 選択されたグループに含まれているか判定
+        }
+        return false;
     });
 
     // かなモードのフィルタリング
@@ -79,10 +102,8 @@ function filterAvailableItems() {
 }
 
 // --- カード操作 ---
- 
-// 次のカードを表示 (→ キー)
+
 function updateCard() {
-    // 現在のカードを履歴に保存 (最初のロード時を除く)
     if (currentItem) {
         cardHistory.push(currentItem);
     }
@@ -95,63 +116,50 @@ function updateCard() {
     }
 
     let availableList = currentMode === "word" ? availableWords : availableKanas;
-    let shownItems = cardHistory.slice(); // 履歴にあるアイテム
+    let filtered = availableList.filter(item => !cardHistory.includes(item));
 
-    // 既に表示されたものを除外
-    let filtered = availableList.filter(item => !shownItems.includes(item));
-
-    // 完了チェック
     if (filtered.length === 0) {
-      document.getElementById("cardArea").innerHTML = `<p>${currentMode === "word" ? "すべての単語" : "すべてのかな"}を表示しました！</p>`;
-      document.getElementById("retry").style.display = "inline-block";
-      currentItem = ""; // カードを空にする
-      return;
+        document.getElementById("cardArea").innerHTML = `<p>${currentMode === "word" ? "すべての単語" : "すべてのかな"}を表示しました！</p>`;
+        document.getElementById("retry").style.display = "inline-block";
+        currentItem = "";
+        return;
     }
 
-    // 新しいカードの選択と状態更新
     const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
     currentItem = randomItem;
-    isFlipped = false; // 常に表面から開始
+    isFlipped = false;
 
     renderCard();
     document.getElementById("retry").style.display = "none";
 }
 
-// 前のカードに戻る (← キー)
 function previousCard() {
     if (cardHistory.length === 0) {
-        return; // 履歴が空の場合は何もしない
+        return;
     }
-    
-    // 履歴の末尾から一つ前のカードを取り出す
     currentItem = cardHistory.pop();
-    
-    isFlipped = false; 
+    isFlipped = false;
     renderCard();
     document.getElementById("retry").style.display = "none";
 }
 
-// カードをレンダリングする関数
+// カードをレンダリングする関数 (画像パスを修正)
 function renderCard() {
     if (!currentItem) return;
     
     let baseName;
-    let suffix; 
-    let imagePath;
-
+    let folder;
+    let suffix = isFlipped ? `-roma.png` : `-kana.png`;
+    
     if (currentMode === "word") {
-        baseName = currentItem;
-        suffix = isFlipped ? `B.png` : `A.png`;
-        imagePath = `images/${baseName}${suffix}`;
-    } else { 
-        const kanaChar = kanaMap[currentItem].kana; 
-        if (!isFlipped) {
-            suffix = `-kana.png`;
-        } else {
-            suffix = `-roma.png`;
-        }
-        imagePath = `images/${kanaChar}${suffix}`;
+        folder = 'tango';
+        baseName = currentItem; // currentItemはひらがな単語 (例: "あか")
+    } else { // kanaモード
+        folder = 'hiragana';
+        baseName = kanaMap[currentItem].kana; // currentItemはローマ字 (例: "a")、そこからかな文字を取得
     }
+
+    const imagePath = `image/${folder}/${baseName}${suffix}`;
 
     document.getElementById("cardArea").innerHTML = `
         <img id="card" src="${imagePath}" alt="カード"
@@ -160,32 +168,26 @@ function renderCard() {
     `;
 }
 
-// カードを裏返す関数
 function flipCard() {
     if (!currentItem) return;
     isFlipped = !isFlipped;
     renderCard();
 }
- 
+
 // --- キーボード操作のイベントリスナー ---
 document.addEventListener('keydown', (e) => {
-    // 矢印右キー (→)
     if (e.key === 'ArrowRight') {
         updateCard();
-        e.preventDefault(); // 画面スクロールを防ぐ
-    } 
-    // 矢印左キー (←)
-    else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+    } else if (e.key === 'ArrowLeft') {
         previousCard();
-        e.preventDefault(); // 画面スクロールを防ぐ
-    }
-    // 矢印上/下キー (↑/↓) - カードを裏返す
-    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         flipCard();
-        e.preventDefault(); // 画面スクロールを防ぐ
+        e.preventDefault();
     }
 });
 
 // --- 初期化 ---
-filterAvailableItems(); // 利用可能なリストを最初に計算
-updateCard(); // 最初のカードを表示
+filterAvailableItems();
+updateCard();
